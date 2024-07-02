@@ -21,3 +21,8 @@ def login(request: schemas.Login, db: Session = Depends(database.get_db)):
 
     access_token = token.create_access_token(data={"sub": user.mail})
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.post('/logout')
+def logout(access_token: str):
+    return {"message": "Logged out successfully."}
