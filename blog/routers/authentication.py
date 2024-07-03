@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from ..repository import user
 from .. import schemas, models, database, token
 from sqlalchemy.orm import Session
 from .. hashing import Hash
@@ -6,6 +7,11 @@ from .. hashing import Hash
 router = APIRouter(
     tags=['Authentication']
 )
+
+
+@router.post('/register', response_model=schemas.ShowUser)
+def create_user(request: schemas.User, db: Session = Depends(database.get_db)):
+    return user.create(request, db)
 
 
 @router.post('/login')
