@@ -12,26 +12,26 @@ router = APIRouter(
 get_db = database.get_db
 
 
-@router.get('/', response_model=List[schemas.ShowBlog])
+@router.get('/all', response_model=List[schemas.ShowBlog])
 def all(db: Session = Depends(get_db)):
     return blog.get_all(db)
 
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
+@router.post('/create', status_code=status.HTTP_201_CREATED)
 def create(request: schemas.Blog, db: Session = Depends(get_db)):
     return blog.create(request, db)
 
 
-@router.get('/{id}', status_code=status.HTTP_200_OK, response_model=schemas.ShowBlog)
+@router.get('/show/{id}', status_code=status.HTTP_200_OK, response_model=schemas.ShowBlog)
 def show(id, response: Response, db: Session = Depends(get_db)):
     return blog.show(id, db)
 
 
-@router.put('/{id}', status_code=status.HTTP_202_ACCEPTED)
+@router.put('/update/{id}', status_code=status.HTTP_202_ACCEPTED)
 def update(id, request: schemas.Blog, db: Session = Depends(get_db)):
     return blog.update(id, request, db)
 
 
-@router.delete('/{id}')
+@router.delete('/delete/{id}')
 def destory(id, db: Session = Depends(get_db)):
     return blog.destroy(id, db)
